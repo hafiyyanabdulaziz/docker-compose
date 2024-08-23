@@ -1,17 +1,23 @@
 version: "2"
 
 services:
-  postgresql:
+  db:
     image: "bitnami/postgresql:latest"
-    container_name: postgresql
+    container_name: db
     ports:
       - 5432:5432
     volumes:
       - "postgresql_data:/bitnami/postgresql"
+    networks:
+      - pg_network
     environment:
       - "POSTGRESQL_USERNAME=postgres"
       - "POSTGRESQL_PASSWORD=postgres"
       - "POSTGRESQL_DATABASE=postgres"
+
+networks:
+  pg_network:
+    driver: bridge
 
 volumes:
   postgresql_data:
