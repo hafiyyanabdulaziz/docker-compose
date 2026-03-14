@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  filebrowser:
+    image: filebrowser/filebrowser:latest
+    container_name: file-browser
+    user: 1000:1000 # Sesuaikan dengan UID/GID user kamu jika di Linux, di Windows biasanya bisa dihapus
+    ports:
+      - "8080:80"
+    volumes:
+      - Z:/:/srv              # Bagian ini memetakan Drive F ke dalam folder /srv di container
+      - ./config:/config      # Tempat menyimpan database (user/password)
+      - ./filebrowser.db:/database.sqlite
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Jakarta
+    restart: unless-stopped
