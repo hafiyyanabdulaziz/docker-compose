@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  registry-server:
+    image: registry:2
+    container_name: registry-server
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      # Mengaktifkan fitur hapus image
+      REGISTRY_STORAGE_DELETE_ENABLED: "true"
+      # Secret untuk HTTP
+      REGISTRY_HTTP_SECRET: "hafiyyanabdulaziz"
+      # FIX CORS: Sesuaikan dengan domain yang kamu pakai di NPM
+      REGISTRY_HTTP_CORS_ALLOWEDORIGINS: "['https://registry.server.hafiyyanabdulaziz.my.id']"
+      REGISTRY_HTTP_CORS_ALLOWEDMETHODS: "['HEAD', 'GET', 'OPTIONS', 'DELETE']"
+      REGISTRY_HTTP_CORS_ALLOWEDHEADERS: "['Authorization', 'Accept', 'Cache-Control', 'Raw-Control-Info', 'Content-Type']"
+      REGISTRY_HTTP_CORS_EXPOSEHEADERS: "['Docker-Content-Digest']"
+    volumes:
+      # Menyimpan image secara permanen di folder lokal
+      - ./data:/var/lib/registry
