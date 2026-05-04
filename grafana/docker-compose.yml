@@ -1,15 +1,17 @@
-version: "3"
 services:
   grafana:
-    image: grafana/grafana-enterprise
+    image: grafana/grafana-oss:latest
     container_name: grafana
-    restart: unless-stopped
-    privileged: true
     ports:
       - "3003:3000"
-    environment:
-      - GF_PANELS_DISABLE_SANITIZE_HTML=true
     volumes:
-      - storage:/var/lib/grafana
-volumes:
-  storage:
+      - ./grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=hafiyyanabdulaziz
+      - GF_SECURITY_ADMIN_PASSWORD=MICROSOFTsaya1!
+      # Mengaktifkan fitur Embed HTML dan Script di Text Panel
+      - GF_PANELS_DISABLE_SANITIZE_HTML=true
+      # Opsional: Jika ingin grafana bisa dimasukkan ke iframe lain
+      - GF_SECURITY_ALLOW_EMBEDDING=true
+    user: "472"
+    restart: unless-stopped
